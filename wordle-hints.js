@@ -24,7 +24,7 @@
 })();
 
 function parseBoardRules() {
-  const rules = [];
+  const rulesByLetter = {};
   const gameApp = document.querySelector('game-app').shadowRoot;
   const gameRows = [...gameApp.querySelectorAll('game-row')].map(row => row.shadowRoot);
 
@@ -39,11 +39,23 @@ function parseBoardRules() {
       const ruleType = tile.getAttribute('data-state');
 
       if (letter) {
-        rules.push({ letter: letter.toUpperCase(), position: j, type: ruleType });
+        const newRule = { letter: letter.toUpperCase(), position: j, type: ruleType };
+        const existingRule = rulesByLetter[newRule.letter];
+
+        // If there is already a rule for this letter, and one of the rules is 'absent', 
+        // then discard the rule because they contradict one another.
+        // 'correct' and 'present' do not contradict one another.
+        if (existingRule && (existingRule.type === 'absent' || newRule.type === 'absent')) {
+          rulesByLetter[newRule.letter] = [existingRule, newRule].find(rule => rule.type !== 'absent');
+        } else {
+          rulesByLetter[newRule.letter] = newRule;
+        }
       }
     }
   }
 
+  const rules = Object.keys(rulesByLetter).map(letter => rulesByLetter[letter]);
+  console.log({rulesByLetter, rules});
   return rules;
 }
 
