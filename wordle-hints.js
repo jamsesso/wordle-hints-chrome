@@ -46,7 +46,7 @@ function parseBoardRules() {
         // then discard the rule because they contradict one another.
         // 'correct' and 'present' do not contradict one another.
         if (existingRule && (existingRule.type === 'absent' || newRule.type === 'absent')) {
-          rulesByLetter[newRule.letter] = [existingRule, newRule].find(rule => rule.type !== 'absent');
+          rulesByLetter[newRule.letter] = ([existingRule, newRule].find(rule => rule.type !== 'absent') || existingRule);
         } else {
           rulesByLetter[newRule.letter] = newRule;
         }

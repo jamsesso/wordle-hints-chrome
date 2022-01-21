@@ -1,7 +1,7 @@
 {
   "name": "Wordle Hints",
   "description": "For those with a small vocabulary (like me!) - @scrptddy on Twitter",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "manifest_version": 3,
   "permissions": ["activeTab", "scripting"],
   "action": {
