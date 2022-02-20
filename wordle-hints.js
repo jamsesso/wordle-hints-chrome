@@ -1,7 +1,8 @@
 (async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  if (!/http(s?)\:\/\/(.*)powerlanguage\.co\.uk\/wordle/g.test(tab.url)) {
+  if (!/http(s?)\:\/\/(.*)powerlanguage\.co\.uk\/wordle/g.test(tab.url) &&
+    !/http(s?)\:\/\/(.*)nytimes\.com\/games\/wordle/g.test(tab.url)) {
     renderError();
     return;    
   }
@@ -90,6 +91,6 @@ function render(words) {
 
 function renderError() {
   document.getElementById('container').innerHTML = `
-    <div id="error">This extension only works at powerlanguage.co.uk/wordle/</div>
+    <div id="error">This extension only works at powerlanguage.co.uk/wordle, nytimes.com/games/wordle</div>
   `;
 }
